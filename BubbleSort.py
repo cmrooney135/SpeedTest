@@ -7,9 +7,9 @@ import time
 
 # Flags to determine which part of the file to run and how much to print to the console
 debug = True
-# TODO: Change these to True when you are ready to run the Python and C++ simulations
-runPython = False
-runCpp = False
+# : Change these to True when you are ready to run the Python and C++ simulations
+runPython = True
+runCpp = True
 
 # Create empty lists that will store the bubble sort runtimes
 pythonTimes = []
@@ -73,9 +73,13 @@ if runPython:
 if runCpp:
     # Sort 1000, 2000, 3000, ..., 10000 integers
     for size in range(1000, 10001, 1000):
-        # TODO: If debug is true, print statement to show where you are in the program
+        # if debug is true, print statement to show where you are in the program
+        if debug:
+        		print("how long does it take python to bubble sort ", size, "random integers?")
 
-        # TODO: Start the clock
+      
+        # : Start the clock
+        tic=time.time()
 
         try:
             # This is Python's way of calling the command line. We use it to compile the C++ files.
@@ -99,13 +103,22 @@ if runCpp:
                 print(p.stdout.read().decode('utf-8'))
             os.remove("a.out")
         
-        # TODO: End clock
+       
+        # : End clock
+        toc=time.time()
 
-        # TODO: If debug is true, print the time it took C++ to sort the integers
+        # : If debug is true, print the time it took C++ to sort the integers
+        if debug:
+        		print(f"C++ Bubble Sort finished in {(toc - tic):0.6f} seconds")
         
-        # TODO: Add the runtime to the list
+        # : Add the runtime to the list
+        cppTimes.append(toc-tic)
 
-    # TODO: If debug is true, after all test runs, print the list of C++ runtimes
+    # If debug is true, after all test runs, print the list of Python runtimes
+    if debug:
+        print("C++ times:")
+        print(cppTimes)
+     	    
 
 # Graph the results
 
@@ -121,9 +134,16 @@ ax = plt.subplot(111)
 if len(pythonTimes) < 10 or len(cppTimes) < 10:
     # Plot the dummy values in blue
     ax.bar(sizes, range(1, 11), width=300, color='b', align='center')
-#TODO: else:
-    # TODO: Plot the Python bars in red
-    # TODO: Plot the C++ bars in yellow
+else:
+  
+    
+    # Plot the C++ bars in yellow
+        ax.bar(sizes, cppX, width=300, color='y', align='center')
+        
+         # Plot the Python bars in red
+        ax.bar(sizes, pythonX, width=300, color='r', align='center')
+
+
 # Set the window title
 plt.gcf().canvas.manager.set_window_title('Speed Test')
 # Set the graph title
